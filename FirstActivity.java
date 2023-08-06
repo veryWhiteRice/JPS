@@ -23,7 +23,7 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 로그인 버튼 클릭 시 처리
-                Intent intent = new Intent(FirstActivity.this, MainActivity.class);
+                Intent intent = new Intent(FirstActivity.this, BasicJob.class);
                 startActivity(intent);
             }
         });
@@ -38,4 +38,3 @@ public class FirstActivity extends AppCompatActivity {
         });
     }
 }
-
