@@ -1,0 +1,39 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="43dp"
+        android:layout_height="51dp"
+        android:layout_marginLeft="312dp"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <HorizontalScrollView
+        android:layout_width="404dp"
+        android:layout_height="802dp"
+        android:layout_marginTop="40dp"
+        android:scrollbars="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView3">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </ScrollView>
+
+    </HorizontalScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
