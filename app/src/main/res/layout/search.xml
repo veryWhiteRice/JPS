@@ -1,9 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <!-- 여기에 검색 조건 UI를 추가하세요 -->
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="43dp"
+        android:layout_height="51dp"
+        android:layout_marginLeft="312dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@id/search_conditions_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/search_conditions_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:id="@+id/company_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="60dp"
+            android:text="기업명 :"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.096"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/search_conditions_layout" />
+
+        <EditText
+            android:id="@+id/company_name_input"
+            android:layout_width="221dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="30dp"
+            android:hint="기업명을 입력하세요"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.357"
+            app:layout_constraintStart_toEndOf="@id/company_name"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/employment_type_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="30dp"
+            android:text="고용형태 :"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/company_name" />
+
+        <CheckBox
+            android:id="@+id/part_time_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="97dp"
+            android:text="시간제"
+            app:layout_constraintEnd_toStartOf="@+id/contract_checkbox"
+            app:layout_constraintStart_toEndOf="@id/employment_type_textView"
+            app:layout_constraintTop_toTopOf="@+id/search_conditions_layout" />
+
+        <CheckBox
+            android:id="@+id/contract_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="97dp"
+            android:text="계약제"
+            app:layout_constraintEnd_toStartOf="@+id/permanent_checkbox"
+            app:layout_constraintStart_toEndOf="@+id/part_time_checkbox"
+            app:layout_constraintTop_toTopOf="@+id/search_conditions_layout" />
+
+        <CheckBox
+            android:id="@+id/permanent_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="97dp"
+            android:text="상용직"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/contract_checkbox"
+            app:layout_constraintTop_toTopOf="@+id/search_conditions_layout" />
+
+        <TextView
+            android:id="@+id/gyung"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="30dp"
+            android:text="요구경력 :"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/employment_type_textView" />
+
+        <CheckBox
+            android:id="@+id/gyung_checkbox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="149dp"
+            android:text="1년이하"
+            app:layout_constraintEnd_toStartOf="@+id/gyung_checkbox2"
+            app:layout_constraintStart_toEndOf="@+id/gyung"
+            app:layout_constraintTop_toTopOf="@+id/search_conditions_layout" />
+
+        <CheckBox
+            android:id="@+id/gyung_checkbox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="148dp"
+            android:text="1년"
+            app:layout_constraintEnd_toStartOf="@+id/gyung_checkbox3"
+            app:layout_constraintStart_toEndOf="@+id/gyung_checkbox1"
+            app:layout_constraintTop_toTopOf="@+id/search_conditions_layout" />
+
+        <CheckBox
+            android:id="@+id/gyung_checkbox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="149dp"
+            android:text="2년"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/gyung_checkbox2"
+            app:layout_constraintTop_toTopOf="@+id/search_conditions_layout" />
+
+        <CheckBox
+            android:id="@+id/gyung_checkbox4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="123dp"
+            android:layout_marginTop="40dp"
+            android:text="3년"
+            app:layout_constraintEnd_toStartOf="@+id/gyung_checkbox5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/gyung_checkbox1" />
+
+        <CheckBox
+            android:id="@+id/gyung_checkbox5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="40dp"
+            android:text="4년"
+            app:layout_constraintStart_toEndOf="@+id/gyung_checkbox4"
+            app:layout_constraintTop_toTopOf="@+id/gyung_checkbox2" />
+
+        <CheckBox
+            android:id="@+id/gyung_checkbox6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:text="5년이상"
+            app:layout_constraintStart_toEndOf="@+id/gyung_checkbox5"
+            app:layout_constraintTop_toTopOf="@+id/gyung_checkbox3" />
+
+        <TextView
+            android:id="@+id/school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="70dp"
+            android:text="요구학력 :"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gyung" />
+
+        <CheckBox
+            android:id="@+id/school_checkbox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="50dp"
+            android:text="무관"
+            app:layout_constraintStart_toEndOf="@+id/school"
+            app:layout_constraintTop_toTopOf="@+id/gyung_checkbox4" />
+
+        <CheckBox
+            android:id="@+id/school_checkbox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="50dp"
+            android:text="고졸"
+            app:layout_constraintStart_toEndOf="@+id/school_checkbox1"
+            app:layout_constraintTop_toTopOf="@+id/gyung_checkbox5" />
+
+        <CheckBox
+            android:id="@+id/school_checkbox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="50dp"
+            android:text="초대졸"
+            app:layout_constraintStart_toEndOf="@+id/school_checkbox2"
+            app:layout_constraintTop_toTopOf="@+id/gyung_checkbox5" />
+        <CheckBox
+            android:id="@+id/school_checkbox4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="50dp"
+            android:text="대졸"
+            app:layout_constraintStart_toEndOf="@+id/school_checkbox3"
+            app:layout_constraintTop_toTopOf="@+id/gyung_checkbox6" />
+
+        <TextView
+            android:id="@+id/barrier_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="30dp"
+            android:text="편의시설 인증 :"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/school" />
+
+        <CheckBox
+            android:id="@+id/barrier_free_checkbox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="50dp"
+            android:text="있음"
+            app:layout_constraintStart_toEndOf="@+id/barrier_free"
+            app:layout_constraintTop_toTopOf="@+id/school_checkbox1" />
+        <CheckBox
+            android:id="@+id/barrier_free_checkbox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="50dp"
+            android:text="없음"
+            app:layout_constraintStart_toEndOf="@+id/barrier_free_checkbox1"
+            app:layout_constraintTop_toTopOf="@+id/school_checkbox2" />
+
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="50dp"
+            android:text="지역명 :"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrier_free" />
+
+        <Spinner
+            android:id="@+id/region_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="80dp"
+            android:entries="@array/regions"
+            app:layout_constraintStart_toEndOf="@+id/city"
+            app:layout_constraintTop_toTopOf="@+id/barrier_free_checkbox1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
