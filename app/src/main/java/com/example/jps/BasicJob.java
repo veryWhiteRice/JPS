@@ -16,12 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import android.os.AsyncTask;
 import android.widget.CheckBox;
+import android.database.Cursor;
 
 
 public class BasicJob extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private JobAdapter jobAdapter;
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,81 +33,44 @@ public class BasicJob extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        dbHelper = new DatabaseHelper(BasicJob.this);
+
         // Start AsyncTask to read CSV file
         new ReadCSVFileTask().execute("장애인구직정보_전처리.csv");
     }
 
-    private class ReadCSVFileTask extends AsyncTask<String, Void, List<JobData>> {
+    private class ReadCSVFileTask extends AsyncTask<String, Void, Void> {
 
         @Override
-        protected List<JobData> doInBackground(String... filenames) {
-            List<JobData> jobDataList = new ArrayList<>();
+        protected Void doInBackground(String... filenames) {
+            List<String[]> allData = new ArrayList<>();
             try {
                 InputStreamReader inputStreamReader = new InputStreamReader(getAssets().open(filenames[0]), "UTF-8");
                 CSVReader csvReader = new CSVReader(inputStreamReader);
 
+                // 헤더 행 스킵
+                csvReader.readNext();
+
                 String[] nextLine;
-
-                // 첫 번째 행(헤더) 읽고 무시
-                try {
-                    csvReader.readNext();
-                } catch (CsvValidationException e) {
-                    e.printStackTrace();
+                while ((nextLine = csvReader.readNext()) != null) {
+                    allData.add(nextLine);
                 }
-
-                // 이후 행들 읽기
-                try {
-                    while ((nextLine = csvReader.readNext()) != null) {
-                        JobData jobData = new JobData(nextLine);
-                        jobDataList.add(jobData);
-                    }
-                } catch (CsvValidationException e) {
-                    e.printStackTrace();
-                }
-
                 csvReader.close();
-            } catch (IOException e) {
+            } catch (IOException | CsvValidationException e) {
                 e.printStackTrace();
             }
 
-            return jobDataList;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(List<JobData> jobDataList) {
-            jobAdapter = new JobAdapter(jobDataList);
+        protected void onPostExecute(Void aVoid) {
+            Cursor cursor = dbHelper.getAllJobs();
+            jobAdapter = new JobAdapter(cursor);
             recyclerView.setAdapter(jobAdapter);
         }
     }
 
-    private List<String[]> readCSVFileFromAssets(String fileName) throws IOException {
-        List<String[]> data = new ArrayList<>();
-
-        InputStreamReader inputStreamReader = new InputStreamReader(getAssets().open(fileName), "UTF-8");
-        CSVReader csvReader = new CSVReader(inputStreamReader);
-
-        String[] nextLine;
-
-        // 첫 번째 행(헤더) 읽고 무시
-        try {
-            csvReader.readNext();
-        } catch (CsvValidationException e) {
-            e.printStackTrace();
-        }
-
-        // 이후 행들 읽기
-        try {
-            while ((nextLine = csvReader.readNext()) != null) {
-                data.add(nextLine);
-            }
-        } catch (CsvValidationException e) {
-            e.printStackTrace();
-        }
-
-        csvReader.close();
-
-        return data;
-    }
     class JobViewHolder extends RecyclerView.ViewHolder {
         TextView textView1, textView2, textView3, textView4, textView5, textView6;
         CheckBox checkBox;
@@ -157,35 +122,49 @@ public class BasicJob extends AppCompatActivity {
     }
 
     class JobAdapter extends RecyclerView.Adapter<JobViewHolder> {
-        private final List<JobData> jobDataList;
+        private List<JobData> jobDataList;
 
-        JobAdapter(List<JobData> jobDataList) {
-            this.jobDataList = jobDataList;
+        JobAdapter(Cursor cursor) {
+            this.jobDataList = new ArrayList<>();
+            while(cursor.moveToNext()) {
+                String companyName = getColumnValue(cursor, "company_name");
+                String jobType = getColumnValue(cursor, "job_type");
+                String company_contract = getColumnValue(cursor, "contract");
+                String company_address = getColumnValue(cursor, "Address");
+                String company_StartDay = getColumnValue(cursor, "Start_Day");
+                String company_EndDay = getColumnValue(cursor, "End_Day");
+
+                if(companyName != null && jobType != null && company_contract != null && company_address != null && company_StartDay != null && company_EndDay != null) {
+                    String[] data = new String[] { companyName, jobType, company_contract, company_address, company_StartDay, company_EndDay };
+                    this.jobDataList.add(new JobData(data));
+                }
+            }
         }
-
-        @Override
+        private String getColumnValue(Cursor cursor, String columnName) {
+            int index = cursor.getColumnIndex(columnName);
+            if(index != -1) {
+                return cursor.getString(index);
+            }
+            return null;
+        }
         public JobViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row, parent, false);
             return new JobViewHolder(view);
         }
 
-        @Override
         public void onBindViewHolder(JobViewHolder holder, int position) {
             JobData job = jobDataList.get(position);
-            String[] row = job.getData();
-            holder.textView1.setText("회사명 : " + row[1]);
-            holder.textView2.setText("직종 업무 : " + row[2]);
-            holder.textView3.setText("계약 구분 : " + row[3]);
-            holder.textView4.setText("주소 : " + row[11]);
-            holder.textView5.setText("시작일자 : " + row[20]);
-            holder.textView6.setText("마감일자 : " + row[21]);
 
-            // 체크박스 설정
+            holder.textView1.setText("회사명 : " + job.getData()[0]);
+            holder.textView2.setText("직종 업무 : " + job.getData()[1]);
+            holder.textView3.setText("계약 구분 : " + job.getData()[2]);
+            holder.textView4.setText("주소 : " + job.getData()[3]);
+            holder.textView5.setText("시작일자 : " + job.getData()[4]);
+            holder.textView6.setText("마감일자 : " + job.getData()[5]);
             holder.checkBox.setChecked(job.isChecked());
             holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> job.setChecked(isChecked));
         }
 
-        @Override
         public int getItemCount() {
             return jobDataList.size();
         }
