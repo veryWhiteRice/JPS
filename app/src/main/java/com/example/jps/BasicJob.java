@@ -80,8 +80,9 @@ public class BasicJob extends AppCompatActivity {
             boolean school4 = someCheckBox13.isChecked();
             boolean access1 = someCheckBox14.isChecked();
             boolean access2 = someCheckBox15.isChecked();
+            String city = someSpinner.getSelectedItem().toString();
             String query = someEditText.getText().toString();
-            jobAdapter.filter(query,isPartTimeChecked, isContractChecked, isPermanentChecked, gyung1, gyung2, gyung3, gyung4, gyung5, gyung6, school1, school2, school3, school4, access1, access2);
+            jobAdapter.filter(query,isPartTimeChecked, isContractChecked, isPermanentChecked, gyung1, gyung2, gyung3, gyung4, gyung5, gyung6, school1, school2, school3, school4, access1, access2, city);
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         });
         // Start AsyncTask to read CSV file
@@ -228,9 +229,10 @@ public class BasicJob extends AppCompatActivity {
                 String company_Gyung = getColumnValue(cursor, "Gyung");
                 String company_Hak = getColumnValue(cursor, "Hak");
                 String company_Access = getColumnValue(cursor, "Access");
+                String company_City = getColumnValue(cursor, "City");
 
-                if(companyName != null && jobType != null && company_contract != null && company_address != null && company_StartDay != null && company_EndDay != null && company_Gyung != null && company_Hak != null && company_Access != null) {
-                    String[] data = new String[] { companyName, jobType, company_contract, company_address, company_StartDay, company_EndDay , company_Gyung, company_Hak, company_Access};
+                if(companyName != null && jobType != null && company_contract != null && company_address != null && company_StartDay != null && company_EndDay != null && company_Gyung != null && company_Hak != null && company_Access != null && company_address != null) {
+                    String[] data = new String[] { companyName, jobType, company_contract, company_address, company_StartDay, company_EndDay , company_Gyung, company_Hak, company_Access, company_City};
                     this.jobDataList.add(new JobData(data));
                 }
             }
@@ -248,9 +250,10 @@ public class BasicJob extends AppCompatActivity {
                 String company_Gyung = getColumnValue(cursor, "Gyung");
                 String company_Hak = getColumnValue(cursor, "Hak");
                 String company_Access = getColumnValue(cursor, "Access");
+                String company_City = getColumnValue(cursor, "City");
 
-                if(companyName != null && jobType != null && company_contract != null && company_address != null && company_StartDay != null && company_EndDay != null && company_Gyung != null && company_Hak != null && company_Access != null) {
-                    String[] data = new String[] { companyName, jobType, company_contract, company_address, company_StartDay, company_EndDay , company_Gyung, company_Hak, company_Access};
+                if(companyName != null && jobType != null && company_contract != null && company_address != null && company_StartDay != null && company_EndDay != null && company_Gyung != null && company_Hak != null && company_Access != null && company_address != null) {
+                    String[] data = new String[] { companyName, jobType, company_contract, company_address, company_StartDay, company_EndDay , company_Gyung, company_Hak, company_Access, company_City};
                     this.jobDataList.add(new JobData(data));
                 }
             }
@@ -292,7 +295,7 @@ public class BasicJob extends AppCompatActivity {
         public int getItemCount() {
             return jobDataList.size();
         }
-        public void filter(String query, boolean isPartTimeChecked, boolean isContractChecked, boolean isPermanentChecked, boolean gyung1, boolean gyung2, boolean gyung3, boolean gyung4, boolean gyung5, boolean gyung6, boolean school1, boolean school2, boolean school3, boolean school4, boolean access1, boolean access2) {
+        public void filter(String query, boolean isPartTimeChecked, boolean isContractChecked, boolean isPermanentChecked, boolean gyung1, boolean gyung2, boolean gyung3, boolean gyung4, boolean gyung5, boolean gyung6, boolean school1, boolean school2, boolean school3, boolean school4, boolean access1, boolean access2, String city) {
             List<JobData> filteredList = new ArrayList<>();
             Cursor cursor = dbHelper.getAllJobs(); // 데이터베이스에서 모든 데이터 다시 가져오기
             jobAdapter.reloadData(cursor);
@@ -302,6 +305,7 @@ public class BasicJob extends AppCompatActivity {
                 String employmentGyung = job.getData()[6].toLowerCase();
                 String employmentSchool = job.getData()[7].toLowerCase();
                 String employmentaccess = job.getData()[8].toLowerCase();
+                String employmentCity = job.getData()[9].toLowerCase();
                 // 쿼리가 비어 있거나, 해당 쿼리를 포함하면 true
                 boolean matchesQuery = query.isEmpty() || companyName.contains(query.toLowerCase());
 
@@ -335,8 +339,9 @@ public class BasicJob extends AppCompatActivity {
                                 (access2 && (employmentaccess.equals("없음")));
 
                 boolean noCheckboxAccessChecked = !(access1 || access2);
+                boolean matchesCity = city.isEmpty() || employmentCity.contains(city.toLowerCase());
                 // 쿼리와 체크박스 조건 둘 다 만족하거나, 체크박스가 선택되지 않았을 때만 쿼리 조건을 확인
-                if (matchesQuery && (isMatchedByCheckbox || noCheckboxChecked) && (isMatchedGyungCheckbox || noCheckboxGyungChecked) && (isMatchedSchoolCheckbox || noCheckboxSchoolChecked) && (isMatchedAccessCheckbox || noCheckboxAccessChecked)) {
+                if (matchesQuery && (isMatchedByCheckbox || noCheckboxChecked) && (isMatchedGyungCheckbox || noCheckboxGyungChecked) && (isMatchedSchoolCheckbox || noCheckboxSchoolChecked) && (isMatchedAccessCheckbox || noCheckboxAccessChecked) && matchesCity) {
                     filteredList.add(job);
                 }
             }

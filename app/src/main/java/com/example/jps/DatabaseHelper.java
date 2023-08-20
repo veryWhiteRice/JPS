@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "jobDatabase";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String TABLE_NAME = "jobs";
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "company_name";
@@ -21,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_Gyung = "Gyung";
     private static final String KEY_Hak = "Hak";
     private static final String KEY_Access = "Access";
+    private static final String KEY_City = "City";
     // 필요에 따라 더 많은 컬럼을 추가...
 
     public DatabaseHelper(Context context) {
@@ -39,7 +40,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + KEY_End +" TEXT,"
                 + KEY_Gyung +" TEXT,"
                 + KEY_Hak +" TEXT,"
-                + KEY_Access +" TEXT" + ")";
+                + KEY_Access +" TEXT,"
+                + KEY_City +" TEXT" + ")";
         db.execSQL(CREATE_TABLE);
     }
 
@@ -64,6 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 values.put(KEY_Gyung, data[7]);
                 values.put(KEY_Hak, data[8]);
                 values.put(KEY_Access, data[16]);
+                values.put(KEY_City, data[22]);
                 db.insert(TABLE_NAME, null, values);
             }
             db.setTransactionSuccessful();
