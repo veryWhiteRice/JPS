@@ -231,7 +231,7 @@ public class BasicJob extends AppCompatActivity {
                 String company_Access = getColumnValue(cursor, "Access");
                 String company_City = getColumnValue(cursor, "City");
 
-                if(companyName != null && jobType != null && company_contract != null && company_address != null && company_StartDay != null && company_EndDay != null && company_Gyung != null && company_Hak != null && company_Access != null && company_address != null) {
+                if(companyName != null && jobType != null && company_contract != null && company_address != null && company_StartDay != null && company_EndDay != null && company_Gyung != null && company_Hak != null && company_Access != null && company_City != null) {
                     String[] data = new String[] { companyName, jobType, company_contract, company_address, company_StartDay, company_EndDay , company_Gyung, company_Hak, company_Access, company_City};
                     this.jobDataList.add(new JobData(data));
                 }
@@ -252,7 +252,7 @@ public class BasicJob extends AppCompatActivity {
                 String company_Access = getColumnValue(cursor, "Access");
                 String company_City = getColumnValue(cursor, "City");
 
-                if(companyName != null && jobType != null && company_contract != null && company_address != null && company_StartDay != null && company_EndDay != null && company_Gyung != null && company_Hak != null && company_Access != null && company_address != null) {
+                if(companyName != null && jobType != null && company_contract != null && company_address != null && company_StartDay != null && company_EndDay != null && company_Gyung != null && company_Hak != null && company_Access != null && company_City != null) {
                     String[] data = new String[] { companyName, jobType, company_contract, company_address, company_StartDay, company_EndDay , company_Gyung, company_Hak, company_Access, company_City};
                     this.jobDataList.add(new JobData(data));
                 }
