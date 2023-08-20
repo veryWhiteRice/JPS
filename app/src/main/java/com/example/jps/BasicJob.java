@@ -339,6 +339,7 @@ public class BasicJob extends AppCompatActivity {
                                 (access2 && (employmentaccess.equals("없음")));
 
                 boolean noCheckboxAccessChecked = !(access1 || access2);
+
                 boolean matchesCity = city.isEmpty() || employmentCity.contains(city.toLowerCase());
                 // 쿼리와 체크박스 조건 둘 다 만족하거나, 체크박스가 선택되지 않았을 때만 쿼리 조건을 확인
                 if (matchesQuery && (isMatchedByCheckbox || noCheckboxChecked) && (isMatchedGyungCheckbox || noCheckboxGyungChecked) && (isMatchedSchoolCheckbox || noCheckboxSchoolChecked) && (isMatchedAccessCheckbox || noCheckboxAccessChecked) && matchesCity) {
