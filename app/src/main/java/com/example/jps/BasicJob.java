@@ -68,8 +68,20 @@ public class BasicJob extends AppCompatActivity {
             boolean isPartTimeChecked = someCheckBox1.isChecked();
             boolean isContractChecked = someCheckBox3.isChecked();
             boolean isPermanentChecked = someCheckBox2.isChecked();
+            boolean gyung1 = someCheckBox4.isChecked();
+            boolean gyung2 = someCheckBox5.isChecked();
+            boolean gyung3 = someCheckBox6.isChecked();
+            boolean gyung4 = someCheckBox7.isChecked();
+            boolean gyung5 = someCheckBox8.isChecked();
+            boolean gyung6 = someCheckBox9.isChecked();
+            boolean school1 = someCheckBox10.isChecked();
+            boolean school2 = someCheckBox11.isChecked();
+            boolean school3 = someCheckBox12.isChecked();
+            boolean school4 = someCheckBox13.isChecked();
+            boolean access1 = someCheckBox14.isChecked();
+            boolean access2 = someCheckBox15.isChecked();
             String query = someEditText.getText().toString();
-            jobAdapter.filter(query,isPartTimeChecked, isContractChecked, isPermanentChecked);
+            jobAdapter.filter(query,isPartTimeChecked, isContractChecked, isPermanentChecked, gyung1, gyung2, gyung3, gyung4, gyung5, gyung6, school1, school2, school3, school4, access1, access2);
             slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         });
         // Start AsyncTask to read CSV file
@@ -280,14 +292,16 @@ public class BasicJob extends AppCompatActivity {
         public int getItemCount() {
             return jobDataList.size();
         }
-        public void filter(String query, boolean isPartTimeChecked, boolean isContractChecked, boolean isPermanentChecked) {
+        public void filter(String query, boolean isPartTimeChecked, boolean isContractChecked, boolean isPermanentChecked, boolean gyung1, boolean gyung2, boolean gyung3, boolean gyung4, boolean gyung5, boolean gyung6, boolean school1, boolean school2, boolean school3, boolean school4, boolean access1, boolean access2) {
             List<JobData> filteredList = new ArrayList<>();
             Cursor cursor = dbHelper.getAllJobs(); // 데이터베이스에서 모든 데이터 다시 가져오기
             jobAdapter.reloadData(cursor);
             for (JobData job : jobDataList) {
                 String companyName = job.getData()[0].toLowerCase();
                 String employmentType = job.getData()[2].toLowerCase();
-
+                String employmentGyung = job.getData()[6].toLowerCase();
+                String employmentSchool = job.getData()[7].toLowerCase();
+                String employmentaccess = job.getData()[8].toLowerCase();
                 // 쿼리가 비어 있거나, 해당 쿼리를 포함하면 true
                 boolean matchesQuery = query.isEmpty() || companyName.contains(query.toLowerCase());
 
@@ -300,8 +314,29 @@ public class BasicJob extends AppCompatActivity {
                 // 체크박스를 하나도 선택하지 않았을 경우, 체크박스 조건은 무시
                 boolean noCheckboxChecked = !(isPartTimeChecked || isContractChecked || isPermanentChecked);
 
+                boolean isMatchedGyungCheckbox =
+                        (gyung1 && (employmentGyung.equals("1년미만") || employmentGyung.equals("무관"))) ||
+                        (gyung2 && employmentGyung.equals("1년")) ||
+                        (gyung3 && employmentGyung.equals("2년")) || (gyung4 && employmentGyung.equals("3년")) || (gyung5 && employmentGyung.equals("4년"))
+                        || (gyung6 && employmentGyung.equals("5년이상"));
+
+                boolean noCheckboxGyungChecked = !(gyung1 || gyung2 || gyung3 || gyung4 || gyung5 || gyung6);
+
+                boolean isMatchedSchoolCheckbox =
+                        (school1 && (employmentSchool.equals("무관"))) ||
+                                (school2 && employmentSchool.equals("고졸")) ||
+                                (school3 && employmentSchool.equals("초대졸")) ||
+                                (school4 && employmentSchool.equals("대졸"));
+
+                boolean noCheckboxSchoolChecked = !(school1 || school2 || school3 || school4);
+
+                boolean isMatchedAccessCheckbox =
+                        (access1 && (employmentaccess.equals("있음"))) ||
+                                (access2 && (employmentaccess.equals("없음")));
+
+                boolean noCheckboxAccessChecked = !(access1 || access2);
                 // 쿼리와 체크박스 조건 둘 다 만족하거나, 체크박스가 선택되지 않았을 때만 쿼리 조건을 확인
-                if (matchesQuery && (isMatchedByCheckbox || noCheckboxChecked)) {
+                if (matchesQuery && (isMatchedByCheckbox || noCheckboxChecked) && (isMatchedGyungCheckbox || noCheckboxGyungChecked) && (isMatchedSchoolCheckbox || noCheckboxSchoolChecked) && (isMatchedAccessCheckbox || noCheckboxAccessChecked)) {
                     filteredList.add(job);
                 }
             }
